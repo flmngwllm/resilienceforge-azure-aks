@@ -1,5 +1,5 @@
-resource "azurerm_storage_account" "resilienceforge_storage_232" {
-    name = "resilienceforgestorage"
+resource "azurerm_storage_account" "resilienceforge_storage" {
+    name = "resilienceforgestorage232"
     location = azurerm_resource_group.tfstate.location
     resource_group_name = azurerm_resource_group.tfstate.name
     account_tier = "Standard"
