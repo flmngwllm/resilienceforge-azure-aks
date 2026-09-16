@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "resilienceforge_storage" {
-    name = "resilienceforgestorage232"
+    name = "resilienceforgestorage23"
     location = azurerm_resource_group.tfstate.location
     resource_group_name = azurerm_resource_group.tfstate.name
     account_tier = "Standard"
@@ -23,7 +23,7 @@ resource "azurerm_storage_account" "resilienceforge_storage" {
 
 resource "azurerm_storage_container" "resilienceforge_storage_container" {
     name = "resilienceforge-container"
-    storage_account_id = azurerm_storage_account.resilienceforge_storage_232.id
+    storage_account_id = azurerm_storage_account.resilienceforge_storage.id
     container_access_type = "private"
     
 
