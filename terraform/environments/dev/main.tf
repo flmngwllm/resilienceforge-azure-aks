@@ -26,3 +26,11 @@ module "keyvault" {
     key_vault_name = "resilienceforge-kv-232"
     tenant_id = data.azurerm_client_config.current.tenant_id
 }
+
+
+module "observability" {
+    source = "../../modules/logAnalytics"
+    location = var.location
+    resource_group_name = azurerm_resource_group.resilienceforge_rg.name
+    log_analytics_workspace_name = "resilienceforge-law-232"
+}
