@@ -29,8 +29,27 @@ module "keyvault" {
 
 
 module "observability" {
-    source = "../../modules/logAnalytics"
+    source = "../../modules/observability"
     location = var.location
     resource_group_name = azurerm_resource_group.resilienceforge_rg.name
     log_analytics_workspace_name = "resilienceforge-law-232"
 }
+
+module "aks" {
+    source = "../../modules/aks"
+    location = var.location
+    resource_group_name = azurerm_resource_group.resilienceforge_rg.name
+    cluster_name = "resilienceforge-aks-232"
+    node_count = 1
+    vm_size = "Standard_D2_v2"
+    subnet_id = module.network.aks_subnet_id
+    log_analytics_workspace_id = module.observability.log_analytics_workspace_id
+    service_cidr = "10.0.0.0/16"
+    pod_cidr = "10.244.0.0/16"
+    dns_service_ip = "10.0.0.10"   
+    control_plane_identity_id = module.identity.control_plane_identity_id
+
+}
+
+
+
