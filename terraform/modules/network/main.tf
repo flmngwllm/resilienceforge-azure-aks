@@ -24,7 +24,7 @@ resource "azurerm_subnet" "resilienceforge_subnet" {
 
 }
 
-resource "azurerm_subnet_network_security_group_association" "example" {
+resource "azurerm_subnet_network_security_group_association" "resilienceforge_nsg_association" {
   subnet_id                 = azurerm_subnet.resilienceforge_subnet.id
   network_security_group_id = azurerm_network_security_group.resilienceforge_nsg.id
 }
