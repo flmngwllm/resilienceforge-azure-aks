@@ -5,6 +5,12 @@ resource "azurerm_resource_group" "resilienceforge_rg" {
 
 data "azurerm_client_config" "current" {}
 
+resource "azurerm_role_assignment" "resilienceforge_contol_plane_access" {
+  scope                = module.network.aks_subnet_id
+  role_definition_name = "Network Contributor"
+  principal_id         = module.identity.control_plane_identity_principal_id
+}
+
 module "network" {
     source = "../../modules/network"
     location = var.location

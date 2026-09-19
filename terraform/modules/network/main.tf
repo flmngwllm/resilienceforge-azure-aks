@@ -1,5 +1,3 @@
-
-
 resource "azurerm_virtual_network" "resilienceforge_vnet" {
     name = "resilienceforge-vnet"
     location = var.location
@@ -26,4 +24,7 @@ resource "azurerm_subnet" "resilienceforge_subnet" {
 
 }
 
-
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.resilienceforge_subnet.id
+  network_security_group_id = azurerm_network_security_group.resilienceforge_nsg.id
+}
