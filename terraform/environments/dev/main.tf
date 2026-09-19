@@ -11,17 +11,23 @@ resource "azurerm_role_assignment" "resilienceforge_control_plane_access" {
   principal_id         = module.identity.control_plane_identity_principal_id
 }
 
-resource "azurerm_role_assignment" "resilienceforge_arc_pull" {
+resource "azurerm_role_assignment" "resilienceforge_acr_pull" {
   scope = module.acr.registry_id
-  role_definition_id = "ArcPull"
+  role_definition_name = "AcrPull"
   principal_id = module.aks.kubelet_identity_object_id
+}
+
+resource "azurerm_role_assignment" "resilienceforge_keyvault_access" {
+  scope = module.keyvault.key_vault_id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id = module.identity.workload_identity_id
 }
 
 module "network" {
     source = "../../modules/network"
     location = var.location
     resource_group_name = azurerm_resource_group.resilienceforge_rg.name
-    depends_on = [azurerm_role_assignment.resilienceforge_control_plane_access]
+    
 }
 
 
@@ -61,7 +67,7 @@ module "aks" {
     pod_cidr = "10.244.0.0/16"
     dns_service_ip = "10.0.0.10"   
     control_plane_identity_id = module.identity.control_plane_identity_id
-
+    depends_on = [azurerm_role_assignment.resilienceforge_control_plane_access]
 }
 
 
