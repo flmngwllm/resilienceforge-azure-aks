@@ -52,4 +52,13 @@ module "aks" {
 }
 
 
+module "identity" {
+    source = "../../modules/identity"
+    location = var.location
+    resource_group_name = azurerm_resource_group.resilienceforge_rg.name
+    workload_identity_name = "resilienceforge-fastapi-workload"
+    control_plane_identity_name =  "resilienceforge-control-plane"
+}
+
+
 
