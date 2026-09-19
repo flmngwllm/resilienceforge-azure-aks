@@ -5,16 +5,23 @@ resource "azurerm_resource_group" "resilienceforge_rg" {
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_role_assignment" "resilienceforge_contol_plane_access" {
+resource "azurerm_role_assignment" "resilienceforge_control_plane_access" {
   scope                = module.network.aks_subnet_id
   role_definition_name = "Network Contributor"
   principal_id         = module.identity.control_plane_identity_principal_id
+}
+
+resource "azurerm_role_assignment" "resilienceforge_arc_pull" {
+  scope = module.acr.registry_id
+  role_definition_id = "ArcPull"
+  principal_id = module.aks.kubelet_identity_object_id
 }
 
 module "network" {
     source = "../../modules/network"
     location = var.location
     resource_group_name = azurerm_resource_group.resilienceforge_rg.name
+    depends_on = [azurerm_role_assignment.resilienceforge_control_plane_access]
 }
 
 
