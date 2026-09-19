@@ -20,7 +20,15 @@ resource "azurerm_role_assignment" "resilienceforge_acr_pull" {
 resource "azurerm_role_assignment" "resilienceforge_keyvault_access" {
   scope = module.keyvault.key_vault_id
   role_definition_name = "Key Vault Secrets User"
-  principal_id = module.identity.workload_identity_id
+  principal_id = module.identity.workload_identity_principal_id
+}
+
+resource "azurerm_federated_identity_credential" "resilienceforge_fastapi_federated_credential" {
+  name                      = "resilienceforge-fastapi-federated-credential"
+  audience                  = ["api://AzureADTokenExchange"]
+  issuer                    = module.aks.oidc_issuer_url
+  user_assigned_identity_id = module.identity.workload_identity_id
+  subject                   = "system:serviceaccount:resilienceforge:resilienceforge-fastapi"
 }
 
 module "network" {
