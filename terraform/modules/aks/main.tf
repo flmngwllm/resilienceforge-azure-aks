@@ -3,7 +3,10 @@ resource "azurerm_kubernetes_cluster" "resilienceforge_aks" {
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.cluster_name
-
+  
+  oidc_issuer_enabled = true
+  workload_identity_enabled = true
+  
   default_node_pool {
     name       = "default"
     node_count = var.node_count
