@@ -1,0 +1,4 @@
+fastapi
+uvicorn
+azure-keyvault-secrets
+azure-identity
