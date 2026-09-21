@@ -1,0 +1,13 @@
+replicaCount: 1
+image:
+  repository: resilienceforge-fastapi
+  tag: "local"
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+serviceAccount:
+  create: true
+  name: resilienceforge-fastapi
+  annotations: {}
